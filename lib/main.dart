@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'dart:math' as math;
 import 'dart:ui';
 
+import 'package:drawing_flutter/resizableWidge/resizableRectengle.dart';
+import 'package:drawing_flutter/resizableWidge/resizableText.dart';
 import 'package:flutter/material.dart';
 
 import 'resizableWidge/resizable.dart';
@@ -64,26 +66,32 @@ class _HomeState extends State<Home> {
             return Container(
               height: height,
               width: width,
-              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              margin: EdgeInsets.symmetric(horizontal: 15, vertical: 30),
               alignment: Alignment.center,
-              child: AspectRatio(
-                aspectRatio: 1 / 1,
-                child: Stack(alignment: Alignment.center, children: [
-                  Container(
-                    decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                      BoxShadow(
-                          color: Colors.black.withOpacity(0.5),
-                          blurRadius: 10,
-                          spreadRadius: -5)
-                    ]),
-                  ),
-                  ResizebleWidget(
-                    child: Text("hello"),
-                  ),
-                  ResizebleWidget(
-                    child: Text("hello"),
-                  )
-                ]),
+              child: ClipRRect(
+                child: AspectRatio(
+                  aspectRatio: 1 / 1,
+                  child: Stack(alignment: Alignment.center, children: [
+                    Container(
+                      decoration:
+                          BoxDecoration(color: Colors.white, boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0.5),
+                            blurRadius: 10,
+                            spreadRadius: -5)
+                      ]),
+                    ),
+                    ResizebleWidget(
+                      child: Container(),
+                    ),
+                    ResizebleRectWidget(
+                      child: Container(),
+                    ),
+                    ResizebleTextWidget(
+                      child: Container(),
+                    )
+                  ]),
+                ),
               ),
             );
           })),

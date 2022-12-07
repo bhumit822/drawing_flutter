@@ -1,71 +1,19 @@
 import 'dart:developer';
-import 'dart:math' as math;
 
+import 'package:drawing_flutter/resizableWidge/resizable.dart';
 import 'package:flutter/material.dart';
 
-class ManipulatingBall extends StatefulWidget {
-  ManipulatingBall({Key? key, required this.onDrag});
-
-  final Function onDrag;
-
-  @override
-  _ManipulatingBallState createState() => _ManipulatingBallState();
-}
-
-class _ManipulatingBallState extends State<ManipulatingBall> {
-  double? initX;
-  double? initY;
-
-  _handleDrag(details) {
-    setState(() {
-      initX = details.globalPosition.dx;
-      initY = details.globalPosition.dy;
-    });
-  }
-
-  _handleUpdate(details) {
-    var dx = details.globalPosition.dx - initX;
-    var dy = details.globalPosition.dy - initY;
-    initX = details.globalPosition.dx;
-    initY = details.globalPosition.dy;
-    widget.onDrag(dx, dy);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onPanStart: _handleDrag,
-      onPanUpdate: _handleUpdate,
-      child: Container(
-        margin: EdgeInsets.all(20),
-        width: ballDiameter,
-        height: ballDiameter,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                blurRadius: 5,
-                spreadRadius: 2)
-          ],
-          shape: BoxShape.circle,
-        ),
-      ),
-    );
-  }
-}
-
-class ResizebleWidget extends StatefulWidget {
-  ResizebleWidget({required this.child});
+class ResizebleRectWidget extends StatefulWidget {
+  ResizebleRectWidget({required this.child});
 
   final Widget child;
   @override
-  _ResizebleWidgetState createState() => _ResizebleWidgetState();
+  _ResizebleRectWidgetState createState() => _ResizebleRectWidgetState();
 }
 
 const ballDiameter = 20.0;
 
-class _ResizebleWidgetState extends State<ResizebleWidget> {
+class _ResizebleRectWidgetState extends State<ResizebleRectWidget> {
   double height = 100;
   double width = 100;
   double? initX;
@@ -85,11 +33,14 @@ class _ResizebleWidgetState extends State<ResizebleWidget> {
   }
 
   bool isselected = false;
-
+  bool isrect = true;
+  double tl = 0;
+  double tr = 0;
+  double bl = 0;
+  double br = 0;
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: Alignment.center,
       children: <Widget>[
         Positioned(
           top: top,
@@ -124,19 +75,22 @@ class _ResizebleWidgetState extends State<ResizebleWidget> {
             child: Container(
               height: height,
               decoration: BoxDecoration(
-                  // color: Colors.red[100],
+                  color: Colors.red[100],
                   border:
                       isselected ? Border.all(color: Color(0xffa32cc4)) : null),
               width: width,
-              child: ClipOval(
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(tl),
+                  topRight: Radius.circular(tr),
+                  bottomLeft: Radius.circular(bl),
+                  bottomRight: Radius.circular(br),
+                ),
                 child: Container(
                   width: width,
                   height: height,
                   decoration: BoxDecoration(
                     color: Colors.amber,
-                    //   borderRadius: BorderRadius.circular(
-                    //     math.max(height * height, width * width),
-                    //   ),
                   ),
                 ),
               ),
@@ -291,7 +245,7 @@ class _ResizebleWidgetState extends State<ResizebleWidget> {
         // center center
         // Positioned(
         //   top: top + height / 2 - (ballDiameter + 40) / 2,
-        //   left: left + width / 2 - (ballDiameter + 40) / 2,
+        //   left: left + width / 2 - ballDiameter / 2,
         //   child: ManipulatingBall(
         //     onDrag: (dx, dy) {
         //       log("----$dx----$dy");
