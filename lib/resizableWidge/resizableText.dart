@@ -82,7 +82,7 @@ class _ResizebleTextWidgetState extends State<ResizebleTextWidget> {
                 child: Container(
                   margin: EdgeInsets.all(5),
                   child: Text(
-                    "hello  asdasdas da sdasd asdasdasd asdasd",
+                    "hello  asdasdas da sdsdf sdf sdfs asd asdasdasd asdasd",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 40),
                   ),
